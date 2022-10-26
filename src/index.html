@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+  <head>
+
+
+    <title>Assignment-3</title>
+  </head>
+  <body>
+    <div>Water</div>
+    <div class="h2 mt-3" id="water_value">...</div>
+    <div class="h2 mt-3" id="water_status">...</div>
+    <br>
+    <div>Wind</div>
+    <div class="h2 mt-3" id="wind_value">...</div>
+    <div class="h2 mt-3" id="wind_status">...</div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+        function getValue() {
+          fetch("http://localhost:8080/newvalue");
+  
+          fetch("http://localhost:8080/static/file.json")
+            .then((response) => response.json())
+            .then((data) => {
+              let status = data.status;
+              console.log(status);
+  
+              document.getElementById("water_value").innerHTML = status.water;
+              document.getElementById("wind_value").innerHTML = status.wind;
+  
+              // change status
+              if (status.water <= 5) {
+                  document.getElementById("water_status").innerHTML = "Aman";
+              } else if (status.water >= 6 && status.water <= 8) {
+                  document.getElementById("water_status").innerHTML = "Siaga";
+              } else if (status.water > 8) {
+                  document.getElementById("water_status").innerHTML = "Bahaya";
+              }
+  
+              // change status
+              if (status.wind <= 6) {
+                  document.getElementById("wind_status").innerHTML = "Aman";
+              } else if (status.wind >= 7 && status.wind <= 15) {
+                  document.getElementById("wind_status").innerHTML = "Siaga";
+              } else if (status.wind > 15) {
+                  document.getElementById("wind_status").innerHTML = "Bahaya";
+              }
+            });
+        }
+
+        getValue();
+
+        setInterval(() => {
+          getValue();
+        }, 15000);
+      </script>
+
+  </body>
+</html>
